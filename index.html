@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>My Profile</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f4f6f9;
+margin:0;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.profile-box{
+background:white;
+padding:30px;
+width:320px;
+text-align:center;
+border-radius:10px;
+box-shadow:0 0 10px gray;
+}
+
+.profile-box img{
+width:100px;
+height:100px;
+border-radius:50%;
+margin-bottom:10px;
+}
+
+.profile-box h2{
+margin:5px 0;
+}
+
+.profile-box p{
+color:gray;
+}
+
+.logout-btn{
+background:red;
+color:white;
+border:none;
+padding:10px 20px;
+margin-top:15px;
+cursor:pointer;
+border-radius:5px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="profile-box">
+
+<img id="profilePhoto" src="https://cdn-icons-png.flaticon.com/512/149/149071.png">
+
+<h2 id="username"></h2>
+
+<p id="email"></p>
+
+<button class="logout-btn" onclick="logout()">Logout</button>
+
+</div>
+
+<script>
+
+let user = JSON.parse(localStorage.getItem("currentUser"));
+
+if(!user){
+alert("Please login first");
+window.location.href="login.html";
+}
+
+document.getElementById("username").innerText = user.name;
+document.getElementById("email").innerText = user.email;
+
+function logout(){
+
+localStorage.removeItem("currentUser");
+
+alert("Logged out successfully");
+
+window.location.href="login.html";
+
+}
+
+</script>
+
+</body>
+</html>

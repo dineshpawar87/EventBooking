@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Register</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- FONT AWESOME -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+body{
+font-family:'Segoe UI', Arial;
+margin:0;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(120deg,#f6d365,#fda085);
+}
+
+/* CARD */
+
+form{
+background:white;
+width:360px;
+padding:35px;
+border-radius:15px;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+text-align:center;
+}
+
+/* TITLE */
+
+h2{
+margin-bottom:25px;
+}
+
+/* INPUT BOX */
+
+.input-box{
+position:relative;
+margin:15px 0;
+}
+
+.input-box input{
+width:80%;
+padding:12px 40px;
+border-radius:8px;
+border:1px solid #ccc;
+font-size:15px;
+transition:0.3s;
+}
+
+.input-box input:focus{
+border-color:#ff3d57;
+outline:none;
+box-shadow:0 0 5px rgba(255,61,87,0.4);
+}
+
+/* ICON LEFT */
+
+.input-box i{
+position:absolute;
+left:12px;
+top:14px;
+color:#888;
+}
+
+/* PASSWORD EYE */
+
+.eye{
+position:absolute;
+right:12px;
+top:14px;
+cursor:pointer;
+color:#888;
+}
+
+/* REGISTER BUTTON */
+
+button{
+width:100%;
+padding:12px;
+margin-top:15px;
+background:#ff3d57;
+color:white;
+border:none;
+border-radius:8px;
+font-size:16px;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:#e0314a;
+transform:scale(1.03);
+}
+
+/* GOOGLE BUTTON */
+
+.google-btn{
+margin-top:15px;
+background:white;
+color:black;
+border:1px solid #ddd;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+}
+
+.google-btn img{
+width:18px;
+}
+
+/* LINKS */
+
+.links{
+margin-top:15px;
+font-size:14px;
+}
+
+.links a{
+color:#ff3d57;
+text-decoration:none;
+}
+
+.links a:hover{
+text-decoration:underline;
+}
+
+/* DIVIDER */
+
+.divider{
+margin:20px 0;
+display:flex;
+align-items:center;
+text-align:center;
+color:#999;
+}
+
+.divider::before,
+.divider::after{
+content:'';
+flex:1;
+border-bottom:1px solid #ddd;
+}
+
+.divider:not(:empty)::before{
+margin-right:.5em;
+}
+
+.divider:not(:empty)::after{
+margin-left:.5em;
+}
+
+/* RESPONSIVE */
+
+@media (max-width:600px){
+
+form{
+width:90%;
+padding:25px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<form onsubmit="registerUser(); return false;">
+
+<h2>Create Account</h2>
+
+<div class="input-box">
+<i class="fa fa-user"></i>
+<input type="text" id="name" placeholder="Enter Name" required>
+</div>
+
+<div class="input-box">
+<i class="fa fa-envelope"></i>
+<input type="email" id="email" placeholder="Enter Email" required>
+</div>
+
+<div class="input-box">
+<i class="fa fa-lock"></i>
+<input type="password" id="password" placeholder="Enter Password" required>
+<i class="fa fa-eye eye" onclick="togglePassword()"></i>
+</div>
+
+<button type="submit">Register</button>
+
+<div class="links">
+<a href="#">Forgot password?</a>
+</div>
+
+<div class="divider">OR</div>
+
+<button type="button" class="google-btn">
+<img src="https://cdn-icons-png.flaticon.com/512/300/300221.png">
+Continue with Google
+</button>
+
+<div class="links">
+Already have account? <a href="login.html">Login</a>
+</div>
+
+</form>
+
+<script>
+
+function togglePassword(){
+let pass=document.getElementById("password");
+
+if(pass.type==="password"){
+pass.type="text";
+}else{
+pass.type="password";
+}
+}
+
+async function registerUser() {
+
+let name = document.getElementById("name").value.trim();
+let email = document.getElementById("email").value.toLowerCase().trim();
+let password = document.getElementById("password").value.trim();
+
+try {
+
+let res = await fetch("http://localhost:3000/register", {
+method: "POST",
+headers: { "Content-Type": "application/json" },
+body: JSON.stringify({ name, email, password })
+});
+
+let data = await res.json();
+
+if(data.success){
+alert("User Registered Successfully");
+window.location.href = "login.html";
+}
+else{
+alert(data.message);
+}
+
+}
+catch(error){
+console.log(error);
+alert("Server not responding");
+}
+
+}
+
+</script>
+
+</body>
+</html>

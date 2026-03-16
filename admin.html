@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Login</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+font-family: Arial, Helvetica, sans-serif;
+background: linear-gradient(135deg,#d9c3ad,#e9d5c3);
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
+}
+
+/* Login Card */
+
+form{
+background:white;
+width:350px;
+padding:40px;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+text-align:center;
+}
+
+/* Heading */
+
+h2{
+margin-bottom:25px;
+color:#333;
+}
+
+/* Input Fields */
+
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border-radius:10px;
+border:1px solid #ccc;
+font-size:15px;
+outline:none;
+transition:0.3s;
+}
+
+input:focus{
+border-color:#ff6a00;
+box-shadow:0 0 5px rgba(255,106,0,0.3);
+}
+
+/* Login Button */
+
+button{
+width:100%;
+padding:12px;
+margin-top:15px;
+border:none;
+border-radius:10px;
+font-size:16px;
+color:white;
+cursor:pointer;
+background: linear-gradient(to right,#ff2b6a,#ff8c32);
+transition:0.3s;
+}
+
+button:hover{
+opacity:0.9;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<form onsubmit="adminLogin(event)">
+
+<h2>Admin Login</h2>
+
+<input type="email" id="email" placeholder="Enter Admin Email" required>
+
+<input type="password" id="password" placeholder="Enter Password" required>
+
+<button type="submit">Login</button>
+
+</form>
+
+<script>
+
+async function adminLogin(event){
+
+event.preventDefault();
+
+let email = document.getElementById("email").value;
+let pass = document.getElementById("password").value;
+
+if(email==="admin@gmail.com" && pass==="admin123"){
+
+await fetch("http://localhost:3000/adminlogin",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({email})
+});
+
+window.location="admindash.html";
+
+}
+else{
+alert("Invalid Admin Credentials");
+}
+
+}
+
+</script>
+
+</body>
+</html>

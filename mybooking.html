@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>My Bookings</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ICONS -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+body{
+font-family:Segoe UI;
+background:#f4f6f9;
+margin:0;
+}
+
+/* NAVBAR */
+
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:#2c3e50;
+color:white;
+padding:15px 30px;
+}
+
+.navbar h2{
+margin:0;
+}
+
+.back{
+background:#3498db;
+border:none;
+padding:8px 16px;
+border-radius:6px;
+color:white;
+cursor:pointer;
+}
+
+.back:hover{
+background:#2980b9;
+}
+
+/* GRID */
+
+#bookingList{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:20px;
+padding:25px;
+max-width: 700px;
+margin: 10px;
+
+}
+
+/* CARD */
+
+.booking-card{
+background:white;
+border-radius:12px;
+overflow:hidden;
+box-shadow:0 6px 15px rgba(0,0,0,0.1);
+transition:0.3s;
+max-width: 320px;
+}
+
+.booking-card:hover{
+transform:translateY(-6px);
+box-shadow:0 12px 22px rgba(0,0,0,0.15);
+}
+
+/* IMAGE */
+
+.event-img{
+width:100%;
+height:160px;
+object-fit:cover;
+}
+
+/* CONTENT */
+
+.card-content{
+padding:10px;
+}
+
+.card-content h3{
+margin-top:0;
+color:#2c7be5;
+}
+
+/* TEXT */
+
+.card-content p{
+margin:6px 0;
+color:#555;
+}
+
+.card-content i{
+margin-right:6px;
+}
+
+/* CANCEL BUTTON */
+
+.cancel{
+margin-top:10px;
+background:#e74c3c;
+border:none;
+padding:8px 14px;
+border-radius:6px;
+color:white;
+cursor:pointer;
+font-size:13px;
+}
+
+.cancel:hover{
+background:#c0392b;
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+#bookingList{
+padding:15px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+<h2><i class="fa-solid fa-ticket"></i> My Bookings</h2>
+
+<button class="back" onclick="goBack()">
+<i class="fa-solid fa-arrow-left"></i> Back
+</button>
+</div>
+
+<!-- BOOKINGS -->
+
+<div id="bookingList"></div>
+
+<script>
+
+function goBack(){
+window.location.href="event.html";
+}
+
+async function loadBookings(){
+
+let user = JSON.parse(localStorage.getItem("currentUser"));
+
+if(!user){
+alert("Please login first");
+window.location.href="login.html";
+return;
+}
+
+let res = await fetch(`http://localhost:3000/mybookings/${user.email}`);
+let bookings = await res.json();
+
+let output="";
+
+bookings.forEach(b=>{
+
+output+=`
+
+<div class="booking-card">
+
+<img class="event-img"
+src="https://png.pngtree.com/thumb_back/fw800/background/20240704/pngtree-new-event-management-outdoor-background-image_15957681.jpg">
+
+<div class="card-content">
+
+<h3>${b.eventName}</h3>
+
+<p><i class="fa-solid fa-calendar"></i> ${b.date}</p>
+
+<p><i class="fa-solid fa-clock"></i> ${b.time}</p>
+
+<button class="cancel"
+onclick="cancelBooking('${b._id}')">
+
+<i class="fa-solid fa-xmark"></i> Cancel Booking
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("bookingList").innerHTML=output;
+
+}
+
+async function cancelBooking(id){
+
+let confirmDelete = confirm("Are you sure you want to cancel this booking?");
+if(!confirmDelete) return;
+
+let res = await fetch(`http://localhost:3000/cancelbooking/${id}`,{
+method:"DELETE"
+});
+
+let data = await res.json();
+
+alert(data.message);
+
+loadBookings();
+
+}
+
+loadBookings();
+
+</script>
+
+</body>
+</html>

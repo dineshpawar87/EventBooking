@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Events</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ICON LIBRARY -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* PAYMENT MODAL */
+
+.payment-modal{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+/* CARD */
+
+.payment-card{
+background:white;
+padding:30px;
+border-radius:12px;
+width:320px;
+text-align:center;
+box-shadow:0 10px 25px rgba(0,0,0,0.3);
+animation:popup 0.4s ease;
+}
+
+/* ANIMATION */
+
+@keyframes popup{
+from{
+transform:scale(0.7);
+opacity:0;
+}
+to{
+transform:scale(1);
+opacity:1;
+}
+}
+
+/* QR */
+
+.qr-box{
+margin:20px 0;
+}
+
+.qr-box img{
+width:180px;
+}
+
+/* TEXT */
+
+.pay-event{
+color:#666;
+margin-bottom:10px;
+}
+
+.countdown{
+font-weight:bold;
+color:#27ae60;
+}
+
+/* CANCEL */
+
+.cancel-btn{
+margin-top:10px;
+background:#e74c3c;
+color:white;
+border:none;
+padding:10px 20px;
+border-radius:6px;
+cursor:pointer;
+}
+
+.cancel-btn:hover{
+background:#c0392b;
+}
+body{
+font-family:Segoe UI;
+background:#f4f6f9;
+margin:0;
+}
+
+/* NAVBAR */
+
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:#2c3e50;
+color:white;
+padding:15px 30px;
+}
+
+.logo{
+font-size:22px;
+font-weight:bold;
+}
+
+.nav-actions{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+/* SEARCH */
+
+.search{
+padding:8px;
+border-radius:6px;
+border:none;
+width:200px;
+}
+
+/* BUTTONS */
+
+.mybooking{
+background:#e67e22;
+color:white;
+border:none;
+padding:10px 18px;
+border-radius:6px;
+cursor:pointer;
+font-size:15px;
+}
+
+.logout{
+background:#e74c3c;
+color:white;
+border:none;
+padding:10px 18px;
+border-radius:6px;
+cursor:pointer;
+font-size:15px;
+}
+.profile-btn{
+background:#4CAF50;
+color:white;
+padding:8px 15px;
+text-decoration:none;
+border-radius:5px;
+margin-left:10px;
+}
+.mybooking:hover{background:#d35400;}
+.logout:hover{background:#c0392b;}
+.top-buttons{
+display:flex;
+justify-content:flex-end;
+padding:10px;
+}
+
+.profile-btn{
+background:#4CAF50;
+color:white;
+border:none;
+padding:10px 15px;
+border-radius:6px;
+cursor:pointer;
+}
+
+.profile-box{
+position:absolute;
+top:70px;
+right:20px;
+width:230px;
+background:white;
+padding:20px;
+text-align:center;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+
+}
+
+.profile-img{
+width:80px;
+height:80px;
+border-radius:50%;
+margin-bottom:10px;
+}
+
+.logout-btn{
+background:#e74c3c;
+color:white;
+border:none;
+padding:10px 15px;
+border-radius:6px;
+cursor:pointer;
+margin-top:10px;
+}
+#pname{
+font-size:15px;
+font-weight:bold;
+color:#222;
+margin-top:15px;
+}
+
+#pemail{
+font-size:12px;
+color:#444;
+margin-top:5px;
+}
+/* EVENT GRID */
+
+#eventList{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+gap:25px;
+padding:30px;
+}
+
+/* EVENT CARD */
+
+.event-card{
+background:white;
+border-radius:12px;
+overflow:hidden;
+box-shadow:0 6px 15px rgba(0,0,0,0.1);
+transition:0.3s;
+}
+
+.event-card:hover{
+transform:translateY(-8px);
+box-shadow:0 12px 25px rgba(0,0,0,0.2);
+}
+
+/* IMAGE */
+
+.event-img{
+width:100%;
+height:170px;
+object-fit:cover;
+}
+
+/* CARD CONTENT */
+
+.event-content{
+padding:15px;
+}
+
+.event-content h3{
+margin-top:0;
+color:#2c7be5;
+}
+
+/* ICON TEXT */
+
+.event-content p{
+margin:6px 0;
+font-size:14px;
+color:#555;
+}
+
+.event-content i{
+margin-right:6px;
+color:#555;
+}
+
+/* BUTTON AREA */
+
+.card-buttons{
+display:flex;
+justify-content:space-between;
+margin-top:12px;
+}
+
+/* BOOK BUTTON */
+
+.book{
+background:#27ae60;
+color:white;
+border:none;
+padding:8px 14px;
+border-radius:6px;
+cursor:pointer;
+}
+
+.book:hover{
+background:#1e8449;
+}
+
+/* LIKE BUTTON */
+
+.like{
+background:#eee;
+border:none;
+padding:8px 12px;
+border-radius:6px;
+cursor:pointer;
+}
+
+.like:hover{
+color:red;
+}
+
+/* FOOTER */
+
+.footer{
+background:#2c3e50;
+color:white;
+padding:30px;
+text-align:center;
+margin-top:40px;
+}
+
+</style>
+</head>
+
+<body>
+<!-- PAYMENT MODAL -->
+
+<div id="paymentModal" class="payment-modal">
+
+<div class="payment-card">
+
+<h2>Pay Your Payment</h2>
+
+<p class="pay-event">Scan QR to book your event</p>
+
+<div class="qr-box">
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=EventPayment">
+</div>
+
+<p class="countdown">Processing in <span id="timer">10</span>s</p>
+
+<button class="cancel-btn" onclick="closePayment()">Cancel</button>
+
+</div>
+</div>
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+<div class="logo">
+<i class="fa-solid fa-ticket"></i> EventHub
+</div>
+
+<input type="text" placeholder="Search events..." class="search">
+
+<div class="nav-actions">
+
+<a href="mybooking.html">
+<button class="mybooking">
+<i class="fa-solid fa-ticket"></i> MyBooking
+</button>
+</a>
+
+<div class="top-buttons">
+
+
+
+</div>
+
+
+<!-- Profile Container -->
+ <button onclick="toggleProfile()" class="profile-btn">
+My Profile
+</button>
+<div id="profileBox" class="profile-box">
+
+<img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="profile-img">
+
+<h3 id="pname"></h3>
+
+<p id="pemail"></p>
+
+<button class="logout-btn" onclick="logout()">Logout</button>
+
+</div>
+</div>
+
+</div>
+
+<!-- EVENTS -->
+
+<div id="eventList"></div>
+
+<script>
+
+async function loadEvents(){
+
+try{
+
+let res = await fetch("http://localhost:3000/events");
+
+console.log("Response:", res);
+
+let events = await res.json();
+
+console.log("Events:", events);
+
+let output="";
+
+events.forEach(e=>{
+
+output += `
+<div class="event-card">
+
+<img src="https://png.pngtree.com/thumb_back/fw800/background/20240704/pngtree-new-event-management-outdoor-background-image_15957681.jpg" class="event-img">
+
+<div class="event-content">
+
+<h3>${e.name}</h3>
+
+<p><i class="fa-solid fa-calendar"></i> ${e.date}</p>
+<p><i class="fa-solid fa-clock"></i> ${e.time}</p>
+<p><i class="fa-solid fa-location-dot"></i> ${e.location}</p>
+<p><i class="fa-solid fa-indian-rupee-sign"></i> ${e.price}</p>
+
+<button class="book"
+onclick="bookEvent('${e._id}','${e.name}','${e.time}','${e.date}')">
+Book Event
+</button>
+
+<button class="like" onclick="toggleLike(this)">
+<i class="fa-solid fa-heart"></i>
+</button>
+</div>
+
+</div>
+</div>
+`;
+
+});
+
+document.getElementById("eventList").innerHTML = output;
+
+}catch(err){
+console.log("Error loading events:",err);
+}
+
+}
+
+window.onload = loadEvents;
+
+
+
+/* BOOK EVENT */
+async function bookEvent(eventId,eventName,eventTime,eventDate){
+
+let user = JSON.parse(localStorage.getItem("currentUser"));
+
+if(!user){
+alert("Please login first");
+window.location.href="login.html";
+return;
+}
+
+/* SHOW PAYMENT POPUP */
+
+document.getElementById("paymentModal").style.display="flex";
+
+let seconds = 10;
+
+/* START COUNTDOWN */
+
+let timer = setInterval(()=>{
+seconds--;
+
+document.getElementById("timer").innerText = seconds;
+
+/* WHEN COUNTDOWN FINISH */
+
+if(seconds === 0){
+
+clearInterval(timer);
+
+document.getElementById("paymentModal").style.display="none";
+
+alert("Payment Successful & Event Booked!");
+
+/* CALL BOOKING API */
+
+fetch("http://localhost:3000/bookevent",{
+
+method:"POST",
+
+headers:{"Content-Type":"application/json"},
+
+body:JSON.stringify({
+
+username:user.name,
+userEmail:user.email,
+eventId:eventId,
+eventName:eventName,
+eventDate:eventDate,
+eventTime:eventTime
+
+})
+
+});
+
+}
+
+},1000);
+
+}
+
+function closePayment(){
+document.getElementById("paymentModal").style.display="none";
+}
+/* LIKE BUTTON */
+
+function toggleLike(btn){
+btn.classList.toggle("liked");
+btn.style.color="red";
+}
+
+
+function loadProfile(){
+
+let user = JSON.parse(localStorage.getItem("currentUser"));
+
+console.log("Profile User:", user);
+
+if(user){
+document.getElementById("pname").innerText = user.name;
+document.getElementById("pemail").innerText = user.email;
+}
+
+}
+function toggleProfile(){
+
+let box = document.getElementById("profileBox");
+
+if(box.style.display === "block"){
+box.style.display = "none";
+}
+else{
+
+box.style.display = "block";
+
+let user = JSON.parse(localStorage.getItem("currentUser"));
+
+console.log("User:", user); // debug
+
+if(user){
+document.getElementById("pname").innerText = user.name;
+document.getElementById("pemail").innerText = user.email;
+}
+
+}
+
+}
+
+function logout(){
+
+localStorage.removeItem("currentUser");
+
+alert("Logout Successful");
+
+window.location.href="register.html";
+
+}
+</script>
+
+
+
+
+
+<!-- FOOTER -->
+
+<div class="footer">
+© 2026 EventHub | All Rights Reserved
+</div>
+
+</body>
+</html>
